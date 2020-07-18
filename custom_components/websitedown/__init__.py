@@ -1,0 +1,1 @@
+"""The Website Down integration."""
