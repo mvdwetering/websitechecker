@@ -1,0 +1,7 @@
+{
+    "name": "Websitechecker",
+    "render_readme": true,
+    "domains": ["binary_sensor"],
+    "homeassistant": "0.113.0",
+    "iot_class": "Cloud Polling"
+}
