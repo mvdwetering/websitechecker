@@ -16,42 +16,25 @@ from homeassistant.const import (
     CONF_URL,
     CONF_NAME
 )
-from homeassistant.helpers import (config_validation as cv)
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-CONF_WEBSITES = "websites"
+from .const import DOMAIN, CONF_WEBSITES
 
 _LOGGER = logging.getLogger(__name__)
 
-_WEBSITES_SCHEMA = vol.All(
-    cv.ensure_list,
-    [
-        vol.Schema({
-            vol.Optional(CONF_NAME): cv.string,
-            vol.Required(CONF_URL): vol.Url()
-        })
-    ]
-)
-
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
-    vol.Required(CONF_WEBSITES): _WEBSITES_SCHEMA
-})
-
 SCAN_INTERVAL = timedelta(minutes=10)
 
-async def async_setup(hass, config):
-    """Set up the sensor platform."""
-    return True
 
 async def async_setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the sensor platform."""
     entities = []
-    websites = config.get(CONF_WEBSITES)
+    websites = discovery_info.get(CONF_WEBSITES)
     websession = async_get_clientsession(hass)
 
     for website in websites:
         url = website.get(CONF_URL)
         name = website.get(CONF_NAME, urlparse(url).netloc)
+        _LOGGER.debug(f"Adding url:{url}, name:{name}")
         entities.append(WebsiteDownSensor(websession, url, name))
     add_entities(entities, True)
 
