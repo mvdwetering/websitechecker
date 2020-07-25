@@ -55,6 +55,11 @@ class WebsiteDownSensor(BinarySensorEntity):
         return self._name
 
     @property
+    def unique_id(self):
+        """Return the uniqueid of the entity."""
+        return self._url
+
+    @property
     def is_on(self):
         """Return true if the binary sensor is on."""
         return self._is_down
