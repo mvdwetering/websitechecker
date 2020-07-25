@@ -35,11 +35,11 @@ async def async_setup_platform(hass, config, add_entities, discovery_info=None):
         url = website.get(CONF_URL)
         name = website.get(CONF_NAME, urlparse(url).netloc)
         _LOGGER.debug(f"Adding url:{url}, name:{name}")
-        entities.append(WebsiteDownSensor(websession, url, name))
+        entities.append(WebsitecheckerSensor(websession, url, name))
     add_entities(entities, True)
 
 
-class WebsiteDownSensor(BinarySensorEntity):
+class WebsitecheckerSensor(BinarySensorEntity):
     """Representation of a Sensor."""
 
     def __init__(self, websession, url, name):

@@ -1,4 +1,4 @@
-# WebsiteChecker
+# Websitechecker
 
 Custom integration that checks if a website is reachable or not.
 

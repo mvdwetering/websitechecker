@@ -1,6 +1,6 @@
 {
   "domain": "websitechecker",
-  "name": "WebsiteChecker",
+  "name": "Websitechecker",
   "documentation": "https://www.github.com/mvdwetering/websitechecker",
   "requirements": ["aiohttp"],
   "dependencies": [],

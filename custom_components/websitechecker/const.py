@@ -1,4 +1,4 @@
-"""Constants for the Website Down integration."""
+"""Constants for the Websitechecker integration."""
 
 DOMAIN = "websitechecker"
 
