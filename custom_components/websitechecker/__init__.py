@@ -1,4 +1,4 @@
-"""The Website Down integration."""
+"""The WebsiteChecker integration."""
 
 import asyncio
 import logging
@@ -41,7 +41,7 @@ PLATFORMS = ["binary_sensor"]
 
 
 async def async_setup(hass: HomeAssistant, config: dict):
-    """Set up the Website Down integration."""
+    """Set up the WebsiteChecker integration."""
     for component in PLATFORMS:
         hass.async_create_task(
             hass.helpers.discovery.async_load_platform(component, DOMAIN, config.get(DOMAIN), config)

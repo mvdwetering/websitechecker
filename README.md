@@ -1,12 +1,18 @@
-# Website Down
+# WebsiteChecker
 
-Custom integration that checks if a website is down.
+Custom integration that checks if a website is reachable or not.
 
 ## Installation
 
-* Add `websitedown:` to `configuration.yaml` and add some URLs to check
+* Add `websitechecker:` to `configuration.yaml` and add some URLs to check
 * Restart Home Assistant.
 
-## Options
+## Example configuration
 
-TODO
+```
+websitechecker:
+  websites:
+    - url: https://google.com
+      name: Optional friendly name
+    - url: http://does_not_exist.com
+```

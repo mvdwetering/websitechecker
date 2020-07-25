@@ -1,0 +1,10 @@
+{
+  "domain": "websitechecker",
+  "name": "WebsiteChecker",
+  "documentation": "https://www.github.com/mvdwetering/websitechecker",
+  "requirements": ["aiohttp"],
+  "dependencies": [],
+  "codeowners": [
+    "@mvdwetering"
+  ]
+}

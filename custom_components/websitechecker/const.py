@@ -1,5 +1,5 @@
 """Constants for the Website Down integration."""
 
-DOMAIN = "websitedown"
+DOMAIN = "websitechecker"
 
 CONF_WEBSITES = "websites"
