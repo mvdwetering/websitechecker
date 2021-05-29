@@ -1,7 +1,5 @@
 """Platform for sensor integration."""
 
-import logging
-import voluptuous as vol
 from datetime import timedelta
 from urllib.parse import urlparse
 
@@ -9,18 +7,13 @@ import aiohttp
 
 from homeassistant.components.binary_sensor import (
     DEVICE_CLASS_PROBLEM,
-    PLATFORM_SCHEMA,
     BinarySensorEntity,
 )
-from homeassistant.const import (
-    CONF_URL,
-    CONF_NAME
-)
+from homeassistant.const import CONF_URL, CONF_NAME
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import DOMAIN, CONF_WEBSITES
+from .const import CONF_WEBSITES, LOGGER
 
-_LOGGER = logging.getLogger(__name__)
 
 SCAN_INTERVAL = timedelta(minutes=10)
 
@@ -34,8 +27,8 @@ async def async_setup_platform(hass, config, add_entities, discovery_info=None):
     for website in websites:
         url = website.get(CONF_URL)
         name = website.get(CONF_NAME, urlparse(url).netloc)
-        _LOGGER.debug(f"Adding url:{url}, name:{name}")
         entities.append(WebsitecheckerSensor(websession, url, name))
+        LOGGER.debug(f"Added entity for url:{url}, name:{name}")
     add_entities(entities, True)
 
 
@@ -77,8 +70,10 @@ class WebsitecheckerSensor(BinarySensorEntity):
     async def async_update(self):
         """Do a request to the website """
         try:
+            LOGGER.debug("Start checking: %s", self._url)
             async with self._websession.get(self._url) as resp:
-                _LOGGER.debug(resp)
+                LOGGER.debug("Done checking: %s, status = %s", self._url, resp.status)
                 self._is_down = resp.status >= 500
         except aiohttp.ClientConnectionError:
+            LOGGER.debug("ConnectionError for %s", self._url)
             self._is_down = True
