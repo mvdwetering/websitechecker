@@ -1,6 +1,6 @@
 # Websitechecker
 
-Custom integration that checks if a website is reachable or not.
+Custom integration that checks if a website is reachable or not. Currently the check is done every 10 minutes.
 
 A website is considered OK when an HTTP request returned with a response code < 500.
 Or the other way around it is considered a problem if the HTTP request failed or returned a response code >= 500.
