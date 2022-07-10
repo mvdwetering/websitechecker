@@ -6,13 +6,17 @@ from homeassistant.core import HomeAssistant
 from homeassistant.const import CONF_URL, CONF_NAME
 from homeassistant.helpers import config_validation as cv
 
-from .const import DOMAIN, CONF_WEBSITES
+from .const import DOMAIN, CONF_UPDATE_INTERVAL, CONF_WEBSITES
 
 _WEBSITES_SCHEMA = vol.All(
     cv.ensure_list,
     [
         vol.Schema(
-            {vol.Optional(CONF_NAME): cv.string, vol.Required(CONF_URL): vol.Url()}
+            {
+                vol.Required(CONF_URL): vol.Url(),
+                vol.Optional(CONF_NAME): cv.string,
+                vol.Optional(CONF_UPDATE_INTERVAL): cv.positive_int,
+            }
         )
     ],
 )
@@ -20,7 +24,10 @@ _WEBSITES_SCHEMA = vol.All(
 CONFIG_SCHEMA = vol.Schema(
     {
         DOMAIN: vol.Schema(
-            {vol.Required(CONF_WEBSITES): _WEBSITES_SCHEMA},
+            {
+                vol.Required(CONF_WEBSITES): _WEBSITES_SCHEMA,
+                vol.Optional(CONF_UPDATE_INTERVAL, default=10): cv.positive_int,
+            },
         ),
     },
     extra=vol.ALLOW_EXTRA,
