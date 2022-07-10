@@ -17,7 +17,7 @@ jobs:
         uses: "hacs/action@main"
         with:
           category: "integration"
-          ignore: "brands wheels"
+          ignore: "brands"
 
   release:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
