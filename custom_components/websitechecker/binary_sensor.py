@@ -46,6 +46,8 @@ class WebsitecheckerSensor(BinarySensorEntity):
         self._update_interval = update_interval
         self._update_interval_remaining = 0  # Make sure to update at startup
 
+        self._attr_extra_state_attributes = {'url': url}
+
     @property
     def name(self):
         """Return the name of the binary sensor."""
