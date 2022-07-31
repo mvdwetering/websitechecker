@@ -13,7 +13,7 @@ Or the other way around it is considered a problem if the HTTP request failed or
 ```
 websitechecker:
   websites:
-    - url: https://google.com
+    - url: https://example.com
       name: Optional friendly name
     - url: http://does_not_exist.com
 ```
@@ -24,7 +24,7 @@ websitechecker:
 websitechecker:
   update_interval: 10  # Optional, defaults to 10 minutes
   websites:
-    - url: https://google.com
+    - url: https://example.com
       name: Optional friendly name
     - url: http://does_not_exist.com
       update_interval: 5  # Optional, main `update_interval` used when not provided
