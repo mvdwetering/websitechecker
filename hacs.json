@@ -1,5 +1,5 @@
 {
     "name": "Websitechecker",
     "render_readme": true,
-    "homeassistant": "0.112.0"
+    "homeassistant": "2022.8.0"
 }
