@@ -1,5 +1,6 @@
 """Platform for sensor integration."""
 
+import asyncio
 from datetime import timedelta
 from urllib.parse import urlparse
 
@@ -10,7 +11,7 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from homeassistant.const import CONF_URL, CONF_NAME
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.aiohttp_client import async_create_clientsession
 
 from .const import CONF_UPDATE_INTERVAL, CONF_WEBSITES, LOGGER
 
@@ -23,7 +24,12 @@ async def async_setup_platform(hass, config, add_entities, discovery_info=None):
     entities = []
     main_update_interval = discovery_info.get(CONF_UPDATE_INTERVAL)
     websites = discovery_info.get(CONF_WEBSITES)
-    websession = async_get_clientsession(hass)
+    websession = async_create_clientsession(
+        hass,
+        timeout=aiohttp.ClientTimeout(
+            total=10, connect=None, sock_connect=None, sock_read=None
+        ),
+    )
 
     for website in websites:
         url = website.get(CONF_URL)
@@ -87,4 +93,10 @@ class WebsitecheckerSensor(BinarySensorEntity):
                     self._is_down = resp.status >= 500
             except aiohttp.ClientConnectionError:
                 LOGGER.debug("ConnectionError for %s", self._url)
+                self._is_down = True
+            except asyncio.TimeoutError:
+                LOGGER.debug("Timeout Error for %s", self._url)
+                self._is_down = True
+            except:
+                LOGGER.exception("Unhandled exception for %s", self._url)
                 self._is_down = True
