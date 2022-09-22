@@ -47,22 +47,14 @@ class WebsitecheckerSensor(BinarySensorEntity):
         """Initialize the sensor."""
         self._is_down = None
         self._url = url
-        self._name = name
         self._websession = websession
         self._update_interval = update_interval
         self._update_interval_remaining = 0  # Make sure to update at startup
 
-        self._attr_extra_state_attributes = {'url': url}
-
-    @property
-    def name(self):
-        """Return the name of the binary sensor."""
-        return self._name
-
-    @property
-    def unique_id(self):
-        """Return the uniqueid of the entity."""
-        return self._url
+        self._attr_extra_state_attributes = {"url": url}
+        self._attr_device_class = DEVICE_CLASS_PROBLEM
+        self._attr_name = name
+        self._attr_unique_id = self._url
 
     @property
     def is_on(self):
@@ -73,11 +65,6 @@ class WebsitecheckerSensor(BinarySensorEntity):
     def available(self) -> bool:
         """Return True if entity is available."""
         return self._is_down is not None
-
-    @property
-    def device_class(self):
-        """Return the class of this device, from component DEVICE_CLASSES."""
-        return DEVICE_CLASS_PROBLEM
 
     async def async_update(self):
         """Do a request to the website"""
