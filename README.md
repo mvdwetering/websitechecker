@@ -5,6 +5,10 @@ Custom integration that checks if a website is reachable or not.
 A website is considered OK when an HTTP request returned with a response code < 500.
 Or the other way around it is considered a problem if the HTTP request failed or returned a response code >= 500.
 
+The sensor offers the following additional attributes:
+
+* url: The configured URL for this sensor
+* last_status: Status of last update. Some example values are "200 - OK" or "Connection error"
 
 ## Configuration examples
 

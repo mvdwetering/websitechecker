@@ -50,8 +50,8 @@ class WebsitecheckerSensor(BinarySensorEntity):
         self._websession = websession
         self._update_interval = update_interval
         self._update_interval_remaining = 0  # Make sure to update at startup
+        self._last_status = "Not updated yet"
 
-        self._attr_extra_state_attributes = {"url": url}
         self._attr_device_class = DEVICE_CLASS_PROBLEM
         self._attr_name = name
         self._attr_unique_id = self._url
@@ -66,6 +66,14 @@ class WebsitecheckerSensor(BinarySensorEntity):
         """Return True if entity is available."""
         return self._is_down is not None
 
+    @property
+    def extra_state_attributes(self) -> dict[str, str]:
+        """Return the state attributes."""
+        return {
+            "url": self._url,
+            "last_staus": self._last_status,
+        }
+
     async def async_update(self):
         """Do a request to the website"""
         self._update_interval_remaining -= 1
@@ -78,12 +86,16 @@ class WebsitecheckerSensor(BinarySensorEntity):
                         "Done checking: %s, status = %s", self._url, resp.status
                     )
                     self._is_down = resp.status >= 500
+                    self._last_status = f"{resp.status} - {resp.reason}"
             except aiohttp.ClientConnectionError:
                 LOGGER.debug("ConnectionError for %s", self._url)
                 self._is_down = True
+                self._last_status = "Connection error"
             except asyncio.TimeoutError:
-                LOGGER.debug("Timeout Error for %s", self._url)
+                LOGGER.debug("Timeout for %s", self._url)
                 self._is_down = True
+                self._last_status = "Timeout"
             except:
                 LOGGER.exception("Unhandled exception for %s", self._url)
                 self._is_down = True
+                self._last_status = "Unhandled error"
