@@ -51,6 +51,7 @@ class WebsitecheckerSensor(BinarySensorEntity):
         self._update_interval = update_interval
         self._update_interval_remaining = 0  # Make sure to update at startup
         self._last_status = "Not updated yet"
+        self._last_error_status = "None"
 
         self._attr_device_class = DEVICE_CLASS_PROBLEM
         self._attr_name = name
@@ -71,7 +72,8 @@ class WebsitecheckerSensor(BinarySensorEntity):
         """Return the state attributes."""
         return {
             "url": self._url,
-            "last_staus": self._last_status,
+            "last_status": self._last_status,
+            "last_error_status": self._last_error_status,
         }
 
     async def async_update(self):
@@ -91,11 +93,14 @@ class WebsitecheckerSensor(BinarySensorEntity):
                 LOGGER.debug("ConnectionError for %s", self._url)
                 self._is_down = True
                 self._last_status = "Connection error"
+                self._last_error_status = self._last_status
             except asyncio.TimeoutError:
                 LOGGER.debug("Timeout for %s", self._url)
                 self._is_down = True
                 self._last_status = "Timeout"
+                self._last_error_status = self._last_status
             except:
                 LOGGER.exception("Unhandled exception for %s", self._url)
                 self._is_down = True
                 self._last_status = "Unhandled error"
+                self._last_error_status = self._last_status
