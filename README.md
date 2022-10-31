@@ -9,6 +9,7 @@ The sensor offers the following additional attributes:
 
 * url: The configured URL for this sensor
 * last_status: Status of last update. Some example values are "200 - OK" or "Connection error"
+* last_error_status: Status of last error, allows to easily see what the last issue was if it came back already.
 
 ## Configuration examples
 
