@@ -13,7 +13,7 @@ from homeassistant.components.binary_sensor import (
 from homeassistant.const import CONF_URL, CONF_NAME
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
 
-from .const import CONF_UPDATE_INTERVAL, CONF_WEBSITES, LOGGER
+from .const import CONF_UPDATE_INTERVAL, CONF_VERIFY_SSL, CONF_WEBSITES, LOGGER
 
 
 SCAN_INTERVAL = timedelta(minutes=1)
@@ -35,7 +35,11 @@ async def async_setup_platform(hass, config, add_entities, discovery_info=None):
         url = website.get(CONF_URL)
         name = website.get(CONF_NAME, urlparse(url).netloc)
         update_interval = website.get(CONF_UPDATE_INTERVAL, main_update_interval)
-        entities.append(WebsitecheckerSensor(websession, url, name, update_interval))
+        verify_ssl = website.get(CONF_VERIFY_SSL)
+
+        entities.append(
+            WebsitecheckerSensor(websession, url, name, update_interval, verify_ssl)
+        )
         LOGGER.debug(f"Added entity for url:{url}, name:{name}")
     add_entities(entities, True)
 
@@ -43,10 +47,11 @@ async def async_setup_platform(hass, config, add_entities, discovery_info=None):
 class WebsitecheckerSensor(BinarySensorEntity):
     """Representation of a Sensor."""
 
-    def __init__(self, websession, url, name, update_interval):
+    def __init__(self, websession, url, name, update_interval, verify_ssl):
         """Initialize the sensor."""
         self._is_down = None
         self._url = url
+        self._verify_ssl = verify_ssl
         self._websession = websession
         self._update_interval = update_interval
         self._update_interval_remaining = 0  # Make sure to update at startup
@@ -83,12 +88,19 @@ class WebsitecheckerSensor(BinarySensorEntity):
             self._update_interval_remaining = self._update_interval
             try:
                 LOGGER.debug("Start checking: %s", self._url)
-                async with self._websession.get(self._url) as resp:
+                async with self._websession.get(
+                    self._url, verify_ssl=self._verify_ssl
+                ) as resp:
                     LOGGER.debug(
                         "Done checking: %s, status = %s", self._url, resp.status
                     )
                     self._is_down = resp.status >= 500
                     self._last_status = f"{resp.status} - {resp.reason}"
+            except aiohttp.ClientSSLError:
+                LOGGER.debug("ClientSSLError for %s", self._url)
+                self._is_down = True
+                self._last_status = "Client SSL error"
+                self._last_error_status = self._last_status
             except aiohttp.ClientConnectionError:
                 LOGGER.debug("ConnectionError for %s", self._url)
                 self._is_down = True

@@ -8,7 +8,7 @@ Or the other way around it is considered a problem if the HTTP request failed or
 The sensor offers the following additional attributes:
 
 * url: The configured URL for this sensor
-* last_status: Status of last update. Some example values are "200 - OK" or "Connection error"
+* last_status: Status of last update. Some possible values are "200 - OK" or "Connection error". More error values exist.
 * last_error_status: Status of last error, allows to easily see what the last issue was if it came back already.
 
 ## Configuration examples
@@ -25,7 +25,7 @@ websitechecker:
       name: Portainer
 ```
 
-### Custom update interval
+### Advanced
 
 ```
 websitechecker:
@@ -33,6 +33,7 @@ websitechecker:
   websites:
     - url: https://example.com
       name: Optional friendly name
+      verify_ssl: false  # Optional, default is true
     - url: http://does_not_exist.com
       update_interval: 5  # Optional, main `update_interval` used when not provided
 ```

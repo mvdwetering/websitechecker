@@ -6,7 +6,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.const import CONF_URL, CONF_NAME
 from homeassistant.helpers import config_validation as cv
 
-from .const import DOMAIN, CONF_UPDATE_INTERVAL, CONF_WEBSITES
+from .const import DOMAIN, CONF_UPDATE_INTERVAL, CONF_WEBSITES, CONF_VERIFY_SSL
 
 _WEBSITES_SCHEMA = vol.All(
     cv.ensure_list,
@@ -16,6 +16,7 @@ _WEBSITES_SCHEMA = vol.All(
                 vol.Required(CONF_URL): vol.Url(),
                 vol.Optional(CONF_NAME): cv.string,
                 vol.Optional(CONF_UPDATE_INTERVAL): cv.positive_int,
+                vol.Optional(CONF_VERIFY_SSL, default=True): cv.boolean,
             }
         )
     ],
