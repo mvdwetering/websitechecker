@@ -29,7 +29,7 @@ websitechecker:
 
 ```
 websitechecker:
-  update_interval: 10  # Optional, defaults to 10 minutes
+  update_interval: 10  # Optional, value in minutes, defaults to 10
   websites:
     - url: https://example.com
       name: Optional friendly name
