@@ -27,7 +27,11 @@ async def async_setup_platform(hass, config, add_entities, discovery_info=None):
     websession = async_create_clientsession(
         hass,
         timeout=aiohttp.ClientTimeout(
-            total=10, connect=None, sock_connect=None, sock_read=None
+            # Use timeout of 9 to avoid "Update takes over 10 seconds" warning in HA lggs
+            total=9,
+            connect=None,
+            sock_connect=None,
+            sock_read=None,
         ),
     )
 
