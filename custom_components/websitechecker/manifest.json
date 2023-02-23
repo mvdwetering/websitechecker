@@ -1,13 +1,14 @@
 {
   "domain": "websitechecker",
   "name": "Websitechecker",
-  "documentation": "https://github.com/mvdwetering/websitechecker",
-  "issue_tracker": "https://github.com/mvdwetering/websitechecker/issues",
-  "requirements": [],
-  "dependencies": [],
+
   "codeowners": [
     "@mvdwetering"
   ],
+  "dependencies": [],
+  "documentation": "https://github.com/mvdwetering/websitechecker",
   "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/mvdwetering/websitechecker/issues",
+  "requirements": [],
   "version": "1.5.0"
 }
