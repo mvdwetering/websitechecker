@@ -39,9 +39,11 @@ websitechecker:
 
 ## Installation
 
-### HACS
+### Home Assistant Community Store (HACS)
 
-Recommended as you get notifications of updates
+*Recommended as you get notifications of updates*
+
+HACS is a 3rd party downloader for Home Assistant to easily install and update custom integrations made by the community. More information and installation instructions can be found on their site https://hacs.xyz/
 
 * Add this repository https://github.com/mvdwetering/websitechecker to HACS as a "custom repository" with category "integration". This option can be found in the ⋮ menu
 * Install the integration from within HACS
