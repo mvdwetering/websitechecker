@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 import aiohttp
 
 from homeassistant.components.binary_sensor import (
-    DEVICE_CLASS_PROBLEM,
+    BinarySensorDeviceClass,
     BinarySensorEntity,
 )
 from homeassistant.const import CONF_URL, CONF_NAME
@@ -62,7 +62,7 @@ class WebsitecheckerSensor(BinarySensorEntity):
         self._last_status = "Not updated yet"
         self._last_error_status = "None"
 
-        self._attr_device_class = DEVICE_CLASS_PROBLEM
+        self._attr_device_class = BinarySensorDeviceClass.PROBLEM
         self._attr_name = name
         self._attr_unique_id = self._url
 
