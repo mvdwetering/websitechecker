@@ -13,7 +13,7 @@ from homeassistant.components.binary_sensor import (
 from homeassistant.const import CONF_URL, CONF_NAME
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
 
-from .const import CONF_UPDATE_INTERVAL, CONF_VERIFY_SSL, CONF_WEBSITES, LOGGER
+from .const import CONF_CONNECTION_TIMEOUT, CONF_UPDATE_INTERVAL, CONF_VERIFY_SSL, CONF_WEBSITES, LOGGER
 
 
 SCAN_INTERVAL = timedelta(minutes=1)
@@ -23,23 +23,26 @@ async def async_setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the sensor platform."""
     entities = []
     main_update_interval = discovery_info.get(CONF_UPDATE_INTERVAL)
+    main_connection_timeout = discovery_info.get(CONF_CONNECTION_TIMEOUT)
     websites = discovery_info.get(CONF_WEBSITES)
-    websession = async_create_clientsession(
-        hass,
-        timeout=aiohttp.ClientTimeout(
-            # Use timeout of 9 to avoid "Update takes over 10 seconds" warning in HA logs
-            total=9,
-            connect=None,
-            sock_connect=None,
-            sock_read=None,
-        ),
-    )
 
     for website in websites:
         url = website.get(CONF_URL)
         name = website.get(CONF_NAME, urlparse(url).netloc)
         update_interval = website.get(CONF_UPDATE_INTERVAL, main_update_interval)
+        connection_timeout = website.get(CONF_CONNECTION_TIMEOUT, main_connection_timeout)
         verify_ssl = website.get(CONF_VERIFY_SSL)
+
+        websession = async_create_clientsession(
+            hass,
+            timeout=aiohttp.ClientTimeout(
+                # Use timeout of 9 to avoid "Update takes over 10 seconds" warning in HA logs
+                total=connection_timeout,
+                connect=None,
+                sock_connect=None,
+                sock_read=None,
+            ),
+        )
 
         entities.append(
             WebsitecheckerSensor(websession, url, name, update_interval, verify_ssl)
