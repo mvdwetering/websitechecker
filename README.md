@@ -21,7 +21,7 @@ websitechecker:
     - url: https://example.com
       name: Optional friendly name
     - url: http://does_not_exist.com
-    - url: http://192.168.178.4:9000  # URLs with no-standard ports also work
+    - url: http://192.168.178.4:9000  # Port can also be provided as normal
 ```
 
 ### Advanced
@@ -29,12 +29,14 @@ websitechecker:
 ```
 websitechecker:
   update_interval: 10  # Optional, value in minutes, defaults to 10
+  connection_timeout: 1.5  # Optional, value in seconds, defaults to 9
   websites:
     - url: https://example.com
       name: Optional friendly name
       verify_ssl: false  # Optional, default is true
     - url: http://does_not_exist.com
       update_interval: 5  # Optional, main `update_interval` used when not provided
+      connection_timeout: 4  # Optional, main `connection_timeout`value used when not provided
 ```
 
 ## Installation
