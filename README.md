@@ -36,7 +36,7 @@ websitechecker:
       verify_ssl: false  # Optional, default is true
     - url: http://does_not_exist.com
       update_interval: 5  # Optional, main `update_interval` used when not provided
-      connection_timeout: 4  # Optional, main `connection_timeout`value used when not provided
+      connection_timeout: 4  # Optional, main `connection_timeout` used when not provided
 ```
 
 ## Installation
