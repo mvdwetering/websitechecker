@@ -21,7 +21,7 @@ websitechecker:
     - url: https://example.com
       name: Optional friendly name
     - url: http://does_not_exist.com
-    - url: http://192.168.178.4:9000  # URLs with no-standard ports also work
+    - url: http://192.168.178.4:9000  # URLs with non-standard ports also work
 ```
 
 ### Advanced
