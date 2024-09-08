@@ -37,6 +37,19 @@ websitechecker:
       update_interval: 5  # Optional, main `update_interval` used when not provided
 ```
 
+## Notificatons
+
+Because the integration exposes normal sensors you can use Automations to get notified of issues. These type of automations are not specific for this integrations, so you can build automations as usual. 
+
+Below are some links to related Home Assistant documentation.
+
+* [Automating Home Assistant](https://www.home-assistant.io/docs/automation/)
+* [Home Assistant Mobile App notifications](https://companion.home-assistant.io/docs/notifications/notifications-basic)
+* [Notification Blueprints on Home Assistant forums](https://community.home-assistant.io/search?q=notifications%20%23blueprints-exchange)
+* [Home Assistant Core integrations that support notifications](https://www.home-assistant.io/integrations/#notifications)
+
+When you have questions for automations or looking for examples ask/search on one of the Home Assistant Community channels like [Forum](https://community.home-assistant.io/), [Discord](https://www.home-assistant.io/join-chat) or [Reddit](https://reddit.com/r/homeassistant).
+
 ## Installation
 
 ### Home Assistant Community Store (HACS)
